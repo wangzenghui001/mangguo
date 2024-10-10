@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="testResult">
+    <select id="selectAll" resultType="com.intl.test.Entity.TestResult">
+        select * from test_result
+    </select>
+
+    <select id="selectByRunFlag" resultType="com.intl.test.Entity.TestCase">
+        select * from test_case where run_flag = #{runFlag}
+    </select>
+
+    <insert id="batchInsert" parameterType="java.util.List">
+        Insert into test_result
+        (case_id,case_name,server,uri,request_header,request_body,expected_response,actual_response,test_result,request_method)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.caseId},#{item.caseName},#{item.server},#{item.uri},#{item.requestHeader},#{item.requestBody},#{item.expectedResponse},#{item.actualResponse},#{item.testResult},#{item.requestMethod})
+        </foreach>
+    </insert>
+</mapper>
